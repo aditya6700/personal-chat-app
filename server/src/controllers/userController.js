@@ -59,6 +59,7 @@ module.exports.login = async (req,res) => {
             }
 
             const token = await loginUser.generateJsonWebToken();
+            await loginUser.updateLastLogin();
 
             const twelveHours = 12 * 60 * 60 * 1000; // Convert 12 hours to milliseconds
             const expirationDate = new Date(Date.now() + twelveHours);
@@ -79,7 +80,7 @@ module.exports.login = async (req,res) => {
     catch (err) {
         res.status(422).json({
             message: 'unknown error',
-            error: err
+            error: err.message
         });
     }
 }

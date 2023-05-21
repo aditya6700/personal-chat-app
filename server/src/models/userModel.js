@@ -34,7 +34,7 @@ const userSchema = mongoose.Schema({
     },
     registerDate: {
         type: Date,
-        default: Date.now()
+        default: Date.now() + (5.5 * 60 * 60 * 1000)
     },
     lastLogin: {
         type: Date,
@@ -46,6 +46,10 @@ const userSchema = mongoose.Schema({
     }]
 });
 
+/* This is a default method 'pre' which runs everytime before saving 
+ * into the database. Here we check if the password is changed.
+ * If password is changed hash the password and call the next();
+ */
 userSchema.pre('save', async function (next) {
     if (this.isModified('password')) {
         try {
@@ -59,6 +63,7 @@ userSchema.pre('save', async function (next) {
     next();
 });
 
+// Custom method to generate jsontoken and save to the database
 userSchema.methods.generateJsonWebToken = async function () {
     try {
         // generating a json token
@@ -75,6 +80,18 @@ userSchema.methods.generateJsonWebToken = async function () {
         console.log('error in creating or saving the token : ',err.message);
     }
 };
+
+// custom method to update the lastlogin of the user
+userSchema.methods.updateLastLogin = async function () {
+    try {
+        // updating last login with current date time in IST
+        this.lastLogin = Date.now() + (5.5 * 60 * 60 * 1000);
+        await this.save();
+    }
+    catch (err) {
+        console.log('error in updating last login : ',err.message);
+    }
+}
 
 // creating a model and exporting
 const Users = mongoose.model('Users', userSchema);
