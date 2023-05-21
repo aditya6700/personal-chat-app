@@ -1,5 +1,6 @@
 const mongoose = require('mongoose');
 const bcrypt = require('bcryptjs');
+const jwt = require('jsonwebtoken');
 
 /* By default mongoose with add 's' at the end of collection
  * to nullify that use pluralize as null */ 
@@ -37,7 +38,12 @@ const userSchema = mongoose.Schema({
     },
     lastLogin: {
         type: Date,
-    }
+    },
+    tokens: [{
+        token: {
+            type: String
+        }
+    }]
 });
 
 userSchema.pre('save', async function (next) {
@@ -52,6 +58,23 @@ userSchema.pre('save', async function (next) {
     }
     next();
 });
+
+userSchema.methods.generateJsonWebToken = async function () {
+    try {
+        // generating a json token
+        const token = jwt.sign({ _id: this._id.toString() }, process.env.SECRET_KEY);
+
+        // concating token with existing tokens
+        this.tokens = this.tokens.concat({ token });
+        await this.save();
+
+        console.log('token generated and saved to the database');
+        return token;
+    }
+    catch (err) {
+        console.log('error in creating or saving the token : ',err.message);
+    }
+};
 
 // creating a model and exporting
 const Users = mongoose.model('Users', userSchema);

@@ -20,6 +20,7 @@ module.exports.register = async (req, res) => {
 
         const user = new Users({ name, email, phone, password, cpassword });
         const userRes = await user.save();
+
         res.status(201).json({ message: 'User registered', data: userRes });
     }
     catch (err) {
@@ -56,6 +57,16 @@ module.exports.login = async (req,res) => {
             if (!hashOk) {
                 return res.status(401).json({ message: "Invalid Credentials." });
             }
+
+            const token = await loginUser.generateJsonWebToken();
+
+            const twelveHours = 12 * 60 * 60 * 1000; // Convert 12 hours to milliseconds
+            const expirationDate = new Date(Date.now() + twelveHours);
+
+            res.cookie('el_token', token, {
+                expires: expirationDate,
+                httpOnly: true
+            });
 
             res.status(200).json({ message: "Login success" });
 
