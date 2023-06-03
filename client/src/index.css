@@ -2,30 +2,4 @@ body {
   margin: 0;
   padding: 0;
   font-family: sans-serif;
-  box-sizing: border-box;
 }
-
-html{
-  font-size: 90%;
-}
-
-
-/* .register_page{
-  border: .3rem solid red;
-  background: linear-gradient(90deg, #efd5ff 0%, #515ada 100%);
-} */
-
-/* .outer_row{
-  border: .3rem solid greenyellow;
-} */
-
-.form_container{
-  /* border: .3rem solid purple; */
-  border-radius: 1rem;
-  box-shadow: rgba(0, 0, 0, 0.2) 0px 12px 28px 0px, rgba(0, 0, 0, 0.1) 0px 2px 4px 0px, rgba(255, 255, 255, 0.05) 0px 0px 0px 1px inset;
-}
-
-/* 
-.register_form{
-  border: .3rem solid black;
-} */
