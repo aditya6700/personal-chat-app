@@ -93,3 +93,29 @@ module.exports.auth = (req,res) => {
         status: true
     });
 }
+
+module.exports.getUsers = async (req, res) => {
+    try {
+
+        const usersList = await Users.find({ _id: { $ne: req.userId } }).select([
+            "email",
+            "name",
+            "_id"
+        ]);
+
+        res.status(200).json({
+            message: "user logged in",
+            currentUser: req.user,
+            users: usersList,
+            status: true
+        });
+    }
+    catch (err) {
+        res.status(200).json({
+            message: "error getting users list",
+            data: err.message,
+            status: true
+        });
+    }
+
+}
