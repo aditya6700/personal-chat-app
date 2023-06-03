@@ -1,6 +1,7 @@
 const dotenv = require('dotenv');
 const express = require('express');
 const routes = require('./src/routes/routes');
+const cookieParser = require('cookie-parser');
 
 dotenv.config({ path: './config.env' }); // configuring env file
 require('./src/db/conn'); // connecting to the database
@@ -11,6 +12,9 @@ const PORT = 1432 || process.env.PORT;
 
 // parsing incoming requesting into json
 app.use(express.json());
+
+// to parse incoming cookie
+app.use(cookieParser());
 
 // home page
 app.get('/', (req, res) => {
