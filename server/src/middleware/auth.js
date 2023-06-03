@@ -18,9 +18,9 @@ const authenticate = async (req,res,next) => {
             throw new Error("User not authenticated");
         }
 
-        req.token = token;
-        req.userId = user._id;
-        req.user = user;
+        res.token = token;
+        res.userId = user._id;
+        res.user = user;
 
         next();
 
