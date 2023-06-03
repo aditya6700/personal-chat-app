@@ -3,6 +3,7 @@ import { Container, Row, Col, Form, FloatingLabel, Button, NavLink } from 'react
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
+import { registerRoute } from '../utils/APIRoutes';
 
 export default function Register() {
 
@@ -88,7 +89,7 @@ export default function Register() {
       console.log('valid');
       
       try {
-        const res = await axios.post('/api/user/register', {
+        const res = await axios.post(registerRoute, {
           name, email, phone, password, cpassword
         });
   
