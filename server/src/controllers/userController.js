@@ -46,7 +46,7 @@ module.exports.login = async (req,res) => {
     const { email, password } = req.body;
 
     if (!email || !password ) {
-        return res.status(422).json({ message: "Enter both email and password." });
+        return res.status(422).json({ message: "email and password are required" });
     }
 
     try {
@@ -83,4 +83,39 @@ module.exports.login = async (req,res) => {
             error: err.message
         });
     }
+}
+
+
+module.exports.auth = (req,res) => {
+    res.status(200).json({
+        message: "user already logged in",
+        data: req.user,
+        status: true
+    });
+}
+
+module.exports.getUsers = async (req, res) => {
+    try {
+
+        const usersList = await Users.find({ _id: { $ne: req.userId } }).select([
+            "email",
+            "name",
+            "_id"
+        ]);
+
+        res.status(200).json({
+            message: "user logged in",
+            currentUser: req.user,
+            users: usersList,
+            status: true
+        });
+    }
+    catch (err) {
+        res.status(200).json({
+            message: "error getting users list",
+            data: err.message,
+            status: true
+        });
+    }
+
 }
