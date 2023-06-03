@@ -3,7 +3,6 @@ import { Container, Row, Col, Form, FloatingLabel, Button, NavLink } from 'react
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
-import { loginRoute } from '../utils/APIRoutes';
 
 export default function Login() {
 
@@ -33,7 +32,7 @@ export default function Login() {
       console.log('valid');
       
       try {
-        const res = await axios.post(loginRoute, {
+        const res = await axios.post('/api/user/login', {
           email, password
         });
   
