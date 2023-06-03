@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Row, Form, FloatingLabel, Button } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Container, Row, Col, Form, FloatingLabel, Button, NavLink } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
-import { registerRoute, authenticate } from '../utils/APIRoutes';
+import { registerRoute } from '../utils/APIRoutes';
 
 export default function Register() {
 
@@ -12,28 +12,6 @@ export default function Register() {
   const [userDetails, setUserDetails] = useState({
     name: "", email: "", phone: 0, password: "", cpassword: ""
   });
-
-  const redirecToHome = async () => {
-    try {
-      const res = await axios.get(authenticate, {
-        // withCredentials: true,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      console.log(res.data);
-      if (res.data.status) {
-        navigate('/');
-      }
-    }
-    catch (err) {
-      console.log(err.response.data);
-    }
-  };
-
-  useEffect(() => {
-    redirecToHome();
-  }, []);
 
   const toastOptions = {
 		position: "bottom-right",
@@ -120,8 +98,7 @@ export default function Register() {
       }
       catch (err) {
         console.log(err.response);
-        // window.alert(err.response.data.message);
-        toast.error(err.response.data.message, toastOptions);
+        window.alert(err.response.data.message);
       }
       
 		}

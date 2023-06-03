@@ -46,7 +46,7 @@ module.exports.login = async (req,res) => {
     const { email, password } = req.body;
 
     if (!email || !password ) {
-        return res.status(422).json({ message: "email and password are required" });
+        return res.status(422).json({ message: "Enter both email and password." });
     }
 
     try {
@@ -83,13 +83,4 @@ module.exports.login = async (req,res) => {
             error: err.message
         });
     }
-}
-
-
-module.exports.auth = (req,res) => {
-    res.status(200).json({
-        message: "user already logged in",
-        data: req.user,
-        status: true
-    });
 }

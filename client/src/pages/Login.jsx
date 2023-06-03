@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from 'react'
-import { Container, Row, Form, FloatingLabel, Button } from 'react-bootstrap';
+import React, { useState } from 'react'
+import { Container, Row, Col, Form, FloatingLabel, Button, NavLink } from 'react-bootstrap';
 import { Link, useNavigate } from 'react-router-dom';
 import { ToastContainer, toast } from "react-toastify";
 import axios from 'axios';
-import { loginRoute, authenticate } from '../utils/APIRoutes';
+import { loginRoute } from '../utils/APIRoutes';
 
 export default function Login() {
 
@@ -12,28 +12,6 @@ export default function Login() {
   const [loginDetails, setLoginDetails] = useState({
     email: "", password: ""
   });
-
-  const redirecToHome = async () => {
-    try {
-      const res = await axios.get(authenticate, {
-        // withCredentials: true,
-        headers: {
-          "Content-Type": "application/json"
-        }
-      });
-      console.log(res.data);
-      if (res.data.status) {
-        navigate('/');
-      }
-    }
-    catch (err) {
-      console.log(err.response.data);
-    }
-  };
-
-  useEffect(() => {
-    redirecToHome();
-  }, []);
 
   const toastOptions = {
 		position: "bottom-right",
@@ -52,10 +30,6 @@ export default function Login() {
     event.preventDefault();
     const { email, password } = loginDetails;
 
-    if (!email || !password) {
-      toast.error("email and password are required", toastOptions);
-    }
-    else {
       console.log('valid');
       
       try {
@@ -68,10 +42,13 @@ export default function Login() {
       }
       catch (err) {
         console.log(err.response);
-        toast.error(err.response.data.message, toastOptions);
+        toast.error(
+          err.response.data.message,
+          toastOptions
+        );
         // window.alert(err.response.data.message);
       }
-    }
+      
   };
 
 
