@@ -88,7 +88,7 @@ const Container = styled.div`
   justify-content: center;
   gap: 1rem;
   align-items: center;
-  background: linear-gradient(90deg, #e3ffe7 0%, #d9e7ff 100%);
+  background: linear-gradient(90deg, #efd5ff 0%, #515ada 100%);
   .container {
     height: 85vh;
     width: 85vw;
