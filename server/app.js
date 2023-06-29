@@ -21,8 +21,7 @@ app.get('/', (req, res) => {
     res.status(200).send('home page');
 });
 
-// defining all user routes with /api/user
-app.use('/api/user', routes);
+app.use('/api', routes);
 
 
 // undefined routes for get and post

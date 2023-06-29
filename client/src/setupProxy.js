@@ -10,4 +10,9 @@ module.exports = function (app) {
         '/api/user',
         createProxyMiddleware(proxy)
     );
+    
+    app.use(
+        '/api/msg',
+        createProxyMiddleware(proxy)
+    );
 };
