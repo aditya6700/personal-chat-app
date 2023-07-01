@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useRef, useState } from 'react';
 import { getUsersRoute } from '../utils/APIRoutes';
 import axios from 'axios';
 import { useNavigate } from 'react-router-dom';
@@ -6,10 +6,12 @@ import styled from "styled-components";
 import Users from '../components/Users';
 import ChatContainer from '../components/ChatContainer';
 import Welcome from '../components/Welcome';
+import { io } from 'socket.io-client';
 
 export default function Home() {
 
   const navigate = useNavigate();
+  const socketRef = useRef();
 
   const [usersList, setUsersList] = useState([]);
   const [currentChat, setCurrentChat] = useState(undefined);
@@ -19,6 +21,14 @@ export default function Home() {
   useEffect(() => {
     isAuthenticated();
   }, []);
+
+
+  useEffect(() => {
+    if (currentUser) {
+      socketRef.current = io('/');
+      socketRef.current.emit("add-user", currentUser._id);
+    }
+  }, [currentUser]);
 
   const isAuthenticated = async () => {
     try {
@@ -44,7 +54,7 @@ export default function Home() {
   };
 
   const handleChatChange = (chat) => {
-    setCurrentChat(chat)
+    setCurrentChat(chat);
   }
 
   return (
@@ -70,6 +80,7 @@ export default function Home() {
                   <ChatContainer
                     currentChat={currentChat}
                     currentUser={currentUser}
+                    socketRef={socketRef}
                   />
               }
             
