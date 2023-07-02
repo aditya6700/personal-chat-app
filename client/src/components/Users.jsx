@@ -20,7 +20,9 @@ export default function Users({ usersList, changeChat, currentUser }) {
         <div className="brand">
             <img src={Logo} alt="logo" />
             <h3>Sparrow</h3>
-            <Logout />
+          <Logout 
+            currentUser={currentUser}
+            />
         </div>
         <div className="users">
           {

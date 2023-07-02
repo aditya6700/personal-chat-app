@@ -119,3 +119,22 @@ module.exports.getUsers = async (req, res) => {
     }
 
 }
+
+
+module.exports.logout = async (req,res) => {
+    try {
+        console.log("logging out from all devices");
+        const userId = req.params.id;
+        const user = await Users.findOneAndUpdate({ _id: userId }, {
+            tokens: []
+        })
+        res.clearCookie('el_token', { path: '/' });
+        res.status(200).send('user logged out');
+    }
+    catch (err) {
+        res.status(422).json({
+            message: 'unknown error',
+            error: err.message
+        });
+    }
+}
